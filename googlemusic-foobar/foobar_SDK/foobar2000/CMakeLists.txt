@@ -1,0 +1,5 @@
+add_subdirectory(ATLHelpers)
+add_subdirectory(foobar2000_component_client)
+add_subdirectory(helpers)
+add_subdirectory(SDK)
+add_subdirectory(shared)

@@ -1,0 +1,2 @@
+add_subdirectory(foobar2000)
+add_subdirectory(pfc)
