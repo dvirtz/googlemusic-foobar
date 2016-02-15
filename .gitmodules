@@ -1,0 +1,3 @@
+[submodule "gmusicapi-cpp"]
+	path = gmusicapi-cpp
+	url = https://github.com/dvirtz/gmusicapi-cpp.git
