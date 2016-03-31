@@ -8,4 +8,4 @@ target_compile_definitions(foobar2000_ATL_helpers PRIVATE _UNICODE)
 
 find_package(WTL REQUIRED)
 
-target_include_directories(foobar2000_ATL_helpers PUBLIC ${WTL_INCLUDE_DIRS})
+target_include_directories(foobar2000_ATL_helpers PRIVATE ${WTL_INCLUDE_DIRS})
