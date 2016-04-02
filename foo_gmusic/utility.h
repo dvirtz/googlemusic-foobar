@@ -3,8 +3,8 @@
 #include <vector>
 #include <algorithm>
 #include <stdlib.h>
+#include "string_base.h"
 #include "disablewarnings.h"
-
 MSC_DISABLE_WARNINGS
 #include <Windows.h>
 MSC_RESTORE_WARNINGS

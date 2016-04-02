@@ -7,8 +7,7 @@ source_group("Resource Files" FILES ${RESOURCES})
 add_library(foo_gmusic SHARED ${SOURCES} ${HEADERS} ${RESOURCES})
 
 target_include_directories(foo_gmusic PUBLIC
-	$<TARGET_PROPERTY:foobar2000_ATL_helpers,INTERFACE_INCLUDE_DIRECTORIES>
-	$<TARGET_PROPERTY:GMusicApi,INTERFACE_INCLUDE_DIRECTORIES>
+	${CMAKE_SOURCE_DIR}
 	${CMAKE_CURRENT_BINARY_DIR})
 
 find_package(WTL REQUIRED)
@@ -17,7 +16,7 @@ target_include_directories(foo_gmusic PRIVATE ${WTL_INCLUDE_DIRS})
 
 target_compile_options(foo_gmusic PRIVATE $<$<BOOL:${MSVC}>:/WX> $<$<BOOL:${MSVC}>:/W4>)
 
-target_compile_definitions(foo_gmusic PRIVATE _UNICODE BOOST_ALL_NO_LIB BOOST_PYTHON_STATIC_LIB)
+target_compile_definitions(foo_gmusic PRIVATE _UNICODE BOOST_ALL_NO_LIB BOOST_PYTHON_STATIC_LIB NOMINMAX)
 
 get_target_property(SHARED_LOC shared IMPORTED_LOCATION)
 

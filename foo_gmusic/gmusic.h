@@ -1,11 +1,17 @@
 #pragma once
 #include <memory>
+#include <string>
+#include <vector>
+#include "disablewarnings.h"
+MSC_DISABLE_WARNINGS
+#include "foobar2000.h"
+MSC_RESTORE_WARNINGS
 
 namespace GMusicApi
 {
 class Module;
 class Mobileclient;
-class SongRange;
+struct Song;
 }
 
 namespace foo_gmusic
@@ -16,7 +22,10 @@ class GMusic
 public:
     void init();
     void login();
-    GMusicApi::SongRange songs(bool incremental = false, bool include_deleted = false);
+    std::vector<metadb_handle_ptr> songs(bool include_deleted = false);
+
+private:
+    std::string streamUrl(const GMusicApi::Song& song);
 
 private:
     std::unique_ptr<GMusicApi::Module>          m_module;
