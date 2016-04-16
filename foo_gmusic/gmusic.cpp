@@ -3,17 +3,29 @@
 #include "gmusicapi/Module.h"
 #include "gmusicapi/Mobileclient.h"
 #include "gmusicapi/Song.h"
+#include "utility.h"
 #include <iostream>
+#include <boost/algorithm/string/predicate.hpp>
+#include "gmusic.h"
 
 namespace foo_gmusic
 {
 
-GMusic g_gmusic;
+using detail::toStdString;
+using detail::toPfcString;
 
-void GMusic::init()
+GMusic::GMusic()
+    : m_module(std::make_unique<GMusicApi::Module>()),
+    m_client(std::make_unique<GMusicApi::Mobileclient>(*m_module))
 {
-    m_module = std::make_unique<GMusicApi::Module>();
-    m_client = std::make_unique<GMusicApi::Mobileclient>(*m_module);
+}
+
+GMusic::~GMusic() = default;
+
+GMusic & GMusic::instance()
+{
+    static GMusic s_instance;
+    return s_instance;
 }
 
 void GMusic::login()
@@ -24,39 +36,86 @@ void GMusic::login()
     auto user = CPreferences::cfg_user.toString();
     auto password = CPreferences::cfg_password.toString();
 
-    if (m_client->login(user, password) == false)
+    try
+    {
+        m_isLoggedIn = m_client->login(user, password);
+        if (m_isLoggedIn)
+        {
+            m_deviceId = deviceId();
+        }
+    }
+    catch(...)
     {
         popup_message::g_complain("Google Music login failed, please make sure the user name and password are updated on the preferences page");
     }
-    else
-    {
-        m_isLoggedIn = true;
-    }
 }
 
-std::vector<metadb_handle_ptr> GMusic::songs(bool include_deleted /*= false*/)
+std::vector<SongInfo> GMusic::songs(bool include_deleted /*= false*/)
 {
-    assert(m_isLoggedIn);
+    if (m_isLoggedIn == false)
+    {
+        return {};
+    }
     auto songs = m_client->get_all_songs(false, include_deleted);
 
-    std::vector<metadb_handle_ptr> res;
-    auto metaDbManager = static_api_ptr_t<metadb>();
-    std::transform(songs.begin(), songs.end(), std::back_inserter(res), [&metaDbManager](const auto& song)
+    std::vector<SongInfo> res;
+    for (auto&& song : songs)
     {
-        auto url = g_gmusic.streamUrl(song);
-        auto loc = make_playable_location(url.c_str(), 0);
-        metadb_handle_ptr handle;
-        metaDbManager->handle_create(handle, loc);
-        handle->
-        return handle;
-    });
+        SongInfo info;
+        info.m_id       = toPfcString(song.id);
+        info.m_title    = toPfcString(song.title);
+        info.m_album    = toPfcString(song.album);
+        info.m_artist   = toPfcString(song.artist);
+        info.m_length   = std::stod(song.durationMillis) / 1000;
+        res.push_back(info);
+    }
 
     return res;
 }
 
-std::string GMusic::streamUrl(const GMusicApi::Song & song)
+pfc::string8 GMusic::deviceId()
 {
-    return m_client->get_stream_url(song.id);
+    pfc::string8 res;
+    CPreferences::cfg_device_id.get(res);
+    if (res.is_empty())
+    {
+        auto devices = m_client->get_registered_devices();
+        if (devices.size() >= 10)
+        {
+            console::warning("10 devices already registered");
+        }
+
+        for (auto&& device : devices)
+        {
+            std::set<std::string> mobileTypes{ "ANDROID", "PHONE", "IOS" };
+            if (mobileTypes.find(device.type) != mobileTypes.end())
+            {
+                res = toPfcString(device.id);
+                break;
+            }
+        }
+
+        if (res.is_empty())
+        {
+            console::warning("Failed to find a registered device");
+        }
+        else
+        {
+            CPreferences::cfg_device_id.set(res);
+        }
+    }
+
+    return res;
+}
+
+pfc::string8 GMusic::streamUrl(const pfc::string8& songId, boost::optional<pfc::string8> deviceId /*= boost::none*/)
+{
+    if (deviceId == boost::none)
+    {
+        deviceId = m_deviceId;
+    }
+
+    return toPfcString(m_client->get_stream_url(toStdString(songId), toStdString(*deviceId)));
 }
 
 } // namespace foo_gmusic

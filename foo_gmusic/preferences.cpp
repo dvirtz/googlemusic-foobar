@@ -1,6 +1,7 @@
 #include "preferences.h"
 #include "utility.h"
 #include "gmusic.h"
+#include "genDefs.h"
 
 namespace foo_gmusic
 {
@@ -10,12 +11,45 @@ namespace foo_gmusic
 const GUID CPreferences::guid_cfg_user = { 0x14101700, 0x58c0, 0x49c6,{ 0xa0, 0xb2, 0xd0, 0xb6, 0x4a, 0x4, 0x96, 0xd2 } };
 // {0EB9A152-A6E1-4772-A49F-B5B74FA96730}
 const GUID CPreferences::guid_cfg_password = { 0xeb9a152, 0xa6e1, 0x4772,{ 0xa4, 0x9f, 0xb5, 0xb7, 0x4f, 0xa9, 0x67, 0x30 } };
+// {3A1AF428-FBA8-469B-A728-1BB22D4E68BE}
+const GUID CPreferences::guid_advconfig_branch = { 0x3a1af428, 0xfba8, 0x469b,{ 0xa7, 0x28, 0x1b, 0xb2, 0x2d, 0x4e, 0x68, 0xbe } };
+// {0B5EED18-05E2-4B8B-BDBE-AC6277DBDF29}
+const GUID CPreferences::guid_cfg_decive_id = { 0xb5eed18, 0x5e2, 0x4b8b,{ 0xbd, 0xbe, 0xac, 0x62, 0x77, 0xdb, 0xdf, 0x29 } };
+
 
 const pfc::string8 CPreferences::default_user = "user@gmail.com";
 const pfc::string8 CPreferences::default_pass = "";
+const pfc::string8 CPreferences::default_device_id = "";
 
-cfg_string CPreferences::cfg_user{ CPreferences::guid_cfg_user, CPreferences::default_user.c_str() };
-cfg_string CPreferences::cfg_password{ CPreferences::guid_cfg_password, CPreferences::default_pass.c_str() };
+cfg_string CPreferences::cfg_user
+{ 
+    CPreferences::guid_cfg_user, 
+    CPreferences::default_user.c_str() 
+};
+
+cfg_string CPreferences::cfg_password
+{ 
+    CPreferences::guid_cfg_password, 
+    CPreferences::default_pass.c_str() 
+};
+
+advconfig_branch_factory CPreferences::advconfig_branch
+{
+    g_pluginName,
+    CPreferences::guid_advconfig_branch,
+    advconfig_branch::guid_branch_tools,
+    0
+};
+
+advconfig_string_factory CPreferences::cfg_device_id
+{
+    "Device ID",
+    CPreferences::guid_cfg_decive_id,
+    CPreferences::guid_advconfig_branch,
+    0,
+    CPreferences::default_device_id 
+};
+
 
 BOOL CPreferences::OnInitDialog(CWindow, LPARAM)
 {
@@ -59,7 +93,7 @@ void CPreferences::apply()
         cfg_user = new_user;
         cfg_password = new_pass;
 
-        g_gmusic.login();
+        GMusic::instance().login();
     }
 
     OnChanged(); //our dialog content has not changed but the flags have - our currently shown values now match the settings so the apply button can be disabled
@@ -84,6 +118,8 @@ pfc::string8 CPreferences::ItemText(int item)
     return{ detail::fromTChar(temp) };
 }
 
-::preferences_page_factory_t<foo_gmusic::preferences_page_myimpl> g_preferences_page_myimpl_factory;
+preferences_page_factory_t<foo_gmusic::preferences_page_myimpl> g_preferences_page_myimpl_factory;
+
+const char* preferences_page_myimpl::get_name() { return g_pluginName; }
 
 } // namespace foo_gmusic

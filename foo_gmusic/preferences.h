@@ -28,6 +28,8 @@ public:
     
     static cfg_string cfg_user;
     static cfg_string cfg_password;
+    static advconfig_branch_factory advconfig_branch;
+    static advconfig_string_factory cfg_device_id;
 
     //WTL message map
     BEGIN_MSG_MAP(CPreferences)
@@ -43,13 +45,14 @@ private:
     pfc::string8 ItemText(int item);
 
     // These GUIDs identify the variables within our component's configuration file.
-    // {14101700-58C0-49C6-A0B2-D0B64A0496D2}
     static const GUID guid_cfg_user;
-    // {0EB9A152-A6E1-4772-A49F-B5B74FA96730}
     static const GUID guid_cfg_password;
+    static const GUID guid_advconfig_branch;
+    static const GUID guid_cfg_decive_id;
 
     static const pfc::string8 default_user;
     static const pfc::string8 default_pass;
+    static const pfc::string8 default_device_id;
 
     const preferences_page_callback::ptr m_callback;
 };
@@ -58,7 +61,7 @@ class preferences_page_myimpl : public preferences_page_impl<CPreferences>
 {
     // preferences_page_impl<> helper deals with instantiation of our dialog; inherits from preferences_page_v3.
 public:
-    const char * get_name() override { return "Google Music"; }
+    const char * get_name() override;
     GUID get_guid() override
     {
         // {E9BCE613-22F8-428E-BB06-B59714765B48}

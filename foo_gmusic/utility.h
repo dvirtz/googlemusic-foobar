@@ -1,11 +1,12 @@
 #pragma once
+
 #include <string>
 #include <vector>
 #include <algorithm>
 #include <stdlib.h>
-#include "string_base.h"
 #include "disablewarnings.h"
 MSC_DISABLE_WARNINGS
+#include "string_base.h"
 #include <Windows.h>
 MSC_RESTORE_WARNINGS
 
@@ -39,6 +40,16 @@ inline pfc::string8 fromTChar(const std::vector<TCHAR>& text)
 #else
     return{ text.data(), test.size() };
 #endif
+}
+
+inline std::string toStdString(const pfc::string& str)
+{
+    return str.c_str();
+}
+
+inline pfc::string8 toPfcString(const std::string& str)
+{
+    return str.c_str();
 }
 
 } // namespace detail

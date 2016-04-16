@@ -1,5 +1,5 @@
-set(SOURCES main.cpp mainmenu.cpp preferences.cpp maindialog.cpp initquit.cpp gmusic.cpp)
-set(HEADERS utility.h atlcontrols.h gmusic.h disablewarnings.h)
+set(SOURCES main.cpp mainmenu.cpp preferences.cpp maindialog.cpp initquit.cpp gmusic.cpp input.cpp)
+set(HEADERS utility.h atlcontrols.h gmusic.h disablewarnings.h preferences.h genDefs.h input.h)
 set(RESOURCES foo_gmusic.rc)
 
 source_group("Resource Files" FILES ${RESOURCES})
