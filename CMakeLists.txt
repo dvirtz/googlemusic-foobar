@@ -4,8 +4,6 @@ project(googlemusic-foobar)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
-
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_subdirectory(foobar_SDK)

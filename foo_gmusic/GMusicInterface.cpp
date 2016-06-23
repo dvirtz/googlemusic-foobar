@@ -1,12 +1,11 @@
-#include "foo_gmusic/gmusic.h"
-#include "foo_gmusic/preferences.h"
+#include "GMusicInterface.h"
+#include "Preferences.h"
 #include "gmusicapi/Module.h"
 #include "gmusicapi/Mobileclient.h"
 #include "gmusicapi/Song.h"
 #include "utility.h"
 #include <iostream>
 #include <boost/algorithm/string/predicate.hpp>
-#include "GMusicInterface.h"
 
 namespace foo_gmusic
 {
