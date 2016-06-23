@@ -15,8 +15,6 @@ static mainmenu_group_popup_factory g_mainmenu_group(g_foo_gmusic_menu_group_id,
 namespace foo_gmusic
 {
 
-extern void RunMainDialog();
-
 class menu_commands : public mainmenu_commands
 {
 public:

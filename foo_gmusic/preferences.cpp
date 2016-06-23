@@ -15,11 +15,15 @@ const GUID CPreferences::guid_cfg_password = { 0xeb9a152, 0xa6e1, 0x4772,{ 0xa4,
 const GUID CPreferences::guid_advconfig_branch = { 0x3a1af428, 0xfba8, 0x469b,{ 0xa7, 0x28, 0x1b, 0xb2, 0x2d, 0x4e, 0x68, 0xbe } };
 // {0B5EED18-05E2-4B8B-BDBE-AC6277DBDF29}
 const GUID CPreferences::guid_cfg_decive_id = { 0xb5eed18, 0x5e2, 0x4b8b,{ 0xbd, 0xbe, 0xac, 0x62, 0x77, 0xdb, 0xdf, 0x29 } };
+// {F5DC96FA-5511-4AEA-B8F5-9D90D6FDBD3B}
+const GUID CPreferences::guid_cfg_andoid_id = { 0xf5dc96fa, 0x5511, 0x4aea,{ 0xb8, 0xf5, 0x9d, 0x90, 0xd6, 0xfd, 0xbd, 0x3b } };
+
 
 
 const pfc::string8 CPreferences::default_user = "user@gmail.com";
-const pfc::string8 CPreferences::default_pass = "";
-const pfc::string8 CPreferences::default_device_id = "";
+const pfc::string8 CPreferences::default_pass;
+const pfc::string8 CPreferences::default_device_id;
+const pfc::string8 CPreferences::default_android_id;
 
 cfg_string CPreferences::cfg_user
 { 
@@ -48,6 +52,15 @@ advconfig_string_factory CPreferences::cfg_device_id
     CPreferences::guid_advconfig_branch,
     0,
     CPreferences::default_device_id 
+};
+
+advconfig_string_factory CPreferences::cfg_andorid_id
+{
+    "Android ID",
+    CPreferences::guid_cfg_decive_id,
+    CPreferences::guid_advconfig_branch,
+    0,
+    CPreferences::default_android_id
 };
 
 

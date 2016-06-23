@@ -30,6 +30,7 @@ public:
     static cfg_string cfg_password;
     static advconfig_branch_factory advconfig_branch;
     static advconfig_string_factory cfg_device_id;
+    static advconfig_string_factory cfg_andorid_id;
 
     //WTL message map
     BEGIN_MSG_MAP(CPreferences)
@@ -49,10 +50,12 @@ private:
     static const GUID guid_cfg_password;
     static const GUID guid_advconfig_branch;
     static const GUID guid_cfg_decive_id;
+    static const GUID guid_cfg_andoid_id;
 
     static const pfc::string8 default_user;
     static const pfc::string8 default_pass;
     static const pfc::string8 default_device_id;
+    static const pfc::string8 default_android_id;
 
     const preferences_page_callback::ptr m_callback;
 };

@@ -23,29 +23,6 @@ public:
     void on_init()
     {
         GMusic::instance().login();
-
-
-        auto playlistManager    = static_api_ptr_t<playlist_manager>();
-        auto playlistCount      = playlistManager->get_playlist_count();
-        auto gmusicPlaylist     = pfc::infinite_size;
-        auto gmusicPlaylistName = "Google Music";
-        for (t_size i = 0; i < playlistCount; ++i)
-        {
-            pfc::string8 playlistName;
-            playlistManager->playlist_get_name(i, playlistName);
-            if (playlistName == gmusicPlaylistName)
-            {
-                gmusicPlaylist = i;
-                break;
-            }
-        }
-
-        if (gmusicPlaylist == pfc::infinite_size)
-        {
-            gmusicPlaylist = playlistManager->create_playlist(gmusicPlaylistName, strlen(gmusicPlaylistName), pfc::infinite_size);
-            playlistManager->playlist_add_locations(gmusicPlaylist, pfc::list_single_ref_t<const char*>("Google Music"), 
-                                                    false, core_api::get_main_window());
-        }
     }
     void on_quit()
     {

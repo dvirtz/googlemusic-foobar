@@ -9,6 +9,7 @@ MSC_DISABLE_SPECIFIC_WARNING(4702)
 MSC_RESTORE_WARNINGS
 #include <boost/optional.hpp>
 MSC_RESTORE_WARNINGS
+#include "songInfo.h"
 
 namespace GMusicApi
 {
@@ -19,15 +20,6 @@ struct Song;
 
 namespace foo_gmusic
 {
-
-struct SongInfo
-{
-    pfc::string8    m_id;
-    pfc::string8    m_title;
-    pfc::string8    m_album;
-    pfc::string8    m_artist;
-    double          m_length;
-};
 
 class GMusic
 {

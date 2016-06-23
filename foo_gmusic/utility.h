@@ -52,6 +52,11 @@ inline pfc::string8 toPfcString(const std::string& str)
     return str.c_str();
 }
 
+inline pfc::string8 toPfcString(t_int64 val)
+{
+    return pfc::format_int(val).toString();
+}
+
 } // namespace detail
 
 } // namespace foo_gmusic

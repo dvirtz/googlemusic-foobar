@@ -35,17 +35,20 @@ void GMusic::login()
 
     auto user = CPreferences::cfg_user.toString();
     auto password = CPreferences::cfg_password.toString();
+    pfc::string8 androidId;
+    CPreferences::cfg_device_id.get(androidId);
 
     try
     {
-        m_isLoggedIn = m_client->login(user, password);
+        m_isLoggedIn = m_client->login(user, password, androidId.toString());
         if (m_isLoggedIn)
         {
             m_deviceId = deviceId();
         }
     }
-    catch(...)
+    catch(std::exception& e)
     {
+        console::error(e.what());
         popup_message::g_complain("Google Music login failed, please make sure the user name and password are updated on the preferences page");
     }
 }
@@ -66,6 +69,9 @@ std::vector<SongInfo> GMusic::songs(bool include_deleted /*= false*/)
         info.m_title    = toPfcString(song.title);
         info.m_album    = toPfcString(song.album);
         info.m_artist   = toPfcString(song.artist);
+        info.m_year     = toPfcString(song.year);
+        info.m_track    = toPfcString(song.trackNumber);
+        info.m_genre    = toPfcString(song.genre);
         info.m_length   = std::stod(song.durationMillis) / 1000;
         res.push_back(info);
     }
