@@ -1,16 +1,16 @@
 #pragma once
 
-#include "disablewarnings.h"
+#include "disableWarnings.h"
 MSC_DISABLE_WARNINGS
 #include "ATLHelpers.h"
 MSC_RESTORE_WARNINGS
-#include "songInfo.h"
+#include "SongInfo.h"
 #include <vector>
 
 namespace foo_gmusic
 {
 
-class GMusic;
+class GMusicInterface;
 
 /// win traits for device property view
 typedef CWinTraitsOR<LVS_REPORT | LVS_SINGLESEL, WS_EX_CLIENTEDGE, CControlWinTraits>
@@ -35,7 +35,7 @@ private:
 
     LRESULT OnLButtonDblClick(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
-    GMusic&                 m_gmusic;
+    GMusicInterface&                 m_gmusic;
     std::vector<SongInfo>   m_songs;
 };
 

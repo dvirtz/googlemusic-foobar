@@ -9,11 +9,11 @@ MSC_RESTORE_WARNINGS
 namespace foo_gmusic
 {
 // Sample preferences interface: two meaningless configuration settings accessible through a preferences page and one accessible through advanced preferences.
-class CPreferences : public CDialogImpl<CPreferences>, public preferences_page_instance
+class Preferences : public CDialogImpl<Preferences>, public preferences_page_instance
 {
 public:
     //Constructor - invoked by preferences_page_impl helpers - don't do Create() in here, preferences_page_impl does this for us
-    CPreferences(preferences_page_callback::ptr callback) : m_callback(callback) {}
+    Preferences(preferences_page_callback::ptr callback) : m_callback(callback) {}
 
     //Note that we don't bother doing anything regarding destruction of our class.
     //The host ensures that our dialog is destroyed first, then the last reference to our preferences_page_instance object is released, causing our object to be deleted.
@@ -33,7 +33,7 @@ public:
     static advconfig_string_factory cfg_andorid_id;
 
     //WTL message map
-    BEGIN_MSG_MAP(CPreferences)
+    BEGIN_MSG_MAP(Preferences)
         MSG_WM_INITDIALOG(OnInitDialog)
         COMMAND_HANDLER_EX(IDC_USER, EN_CHANGE, OnEditChange)
         COMMAND_HANDLER_EX(IDC_PASSWORD, EN_CHANGE, OnEditChange)
@@ -60,7 +60,7 @@ private:
     const preferences_page_callback::ptr m_callback;
 };
 
-class preferences_page_myimpl : public preferences_page_impl<CPreferences>
+class preferences_page_myimpl : public preferences_page_impl<Preferences>
 {
     // preferences_page_impl<> helper deals with instantiation of our dialog; inherits from preferences_page_v3.
 public:

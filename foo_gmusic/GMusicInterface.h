@@ -2,14 +2,14 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "disablewarnings.h"
+#include "disableWarnings.h"
 MSC_DISABLE_WARNINGS
 MSC_DISABLE_SPECIFIC_WARNING(4702)
 #include "foobar2000.h"
 MSC_RESTORE_WARNINGS
 #include <boost/optional.hpp>
 MSC_RESTORE_WARNINGS
-#include "songInfo.h"
+#include "SongInfo.h"
 
 namespace GMusicApi
 {
@@ -21,18 +21,18 @@ struct Song;
 namespace foo_gmusic
 {
 
-class GMusic
+class GMusicInterface
 {
 public:
-    static GMusic& instance();
+    static GMusicInterface& instance();
     void login();
     std::vector<SongInfo> songs(bool include_deleted = false);
     pfc::string8 deviceId();
     pfc::string8 streamUrl(const pfc::string8& songId, boost::optional<pfc::string8> deviceId = boost::none);
 
 private:
-    GMusic();
-    ~GMusic();
+    GMusicInterface();
+    ~GMusicInterface();
 
     std::unique_ptr<GMusicApi::Module>          m_module;
     std::unique_ptr<GMusicApi::Mobileclient>    m_client;

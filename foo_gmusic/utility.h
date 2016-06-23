@@ -4,7 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <stdlib.h>
-#include "disablewarnings.h"
+#include "disableWarnings.h"
 MSC_DISABLE_WARNINGS
 #include "string_base.h"
 #include <Windows.h>

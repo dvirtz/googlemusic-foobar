@@ -6,7 +6,7 @@
 #include "utility.h"
 #include <iostream>
 #include <boost/algorithm/string/predicate.hpp>
-#include "gmusic.h"
+#include "GMusicInterface.h"
 
 namespace foo_gmusic
 {
@@ -14,29 +14,29 @@ namespace foo_gmusic
 using detail::toStdString;
 using detail::toPfcString;
 
-GMusic::GMusic()
+GMusicInterface::GMusicInterface()
     : m_module(std::make_unique<GMusicApi::Module>()),
     m_client(std::make_unique<GMusicApi::Mobileclient>(*m_module))
 {
 }
 
-GMusic::~GMusic() = default;
+GMusicInterface::~GMusicInterface() = default;
 
-GMusic & GMusic::instance()
+GMusicInterface & GMusicInterface::instance()
 {
-    static GMusic s_instance;
+    static GMusicInterface s_instance;
     return s_instance;
 }
 
-void GMusic::login()
+void GMusicInterface::login()
 {
     if (m_isLoggedIn)
         return;
 
-    auto user = CPreferences::cfg_user.toString();
-    auto password = CPreferences::cfg_password.toString();
+    auto user = Preferences::cfg_user.toString();
+    auto password = Preferences::cfg_password.toString();
     pfc::string8 androidId;
-    CPreferences::cfg_device_id.get(androidId);
+    Preferences::cfg_device_id.get(androidId);
 
     try
     {
@@ -53,7 +53,7 @@ void GMusic::login()
     }
 }
 
-std::vector<SongInfo> GMusic::songs(bool include_deleted /*= false*/)
+std::vector<SongInfo> GMusicInterface::songs(bool include_deleted /*= false*/)
 {
     if (m_isLoggedIn == false)
     {
@@ -79,10 +79,10 @@ std::vector<SongInfo> GMusic::songs(bool include_deleted /*= false*/)
     return res;
 }
 
-pfc::string8 GMusic::deviceId()
+pfc::string8 GMusicInterface::deviceId()
 {
     pfc::string8 res;
-    CPreferences::cfg_device_id.get(res);
+    Preferences::cfg_device_id.get(res);
     if (res.is_empty())
     {
         auto devices = m_client->get_registered_devices();
@@ -107,14 +107,14 @@ pfc::string8 GMusic::deviceId()
         }
         else
         {
-            CPreferences::cfg_device_id.set(res);
+            Preferences::cfg_device_id.set(res);
         }
     }
 
     return res;
 }
 
-pfc::string8 GMusic::streamUrl(const pfc::string8& songId, boost::optional<pfc::string8> deviceId /*= boost::none*/)
+pfc::string8 GMusicInterface::streamUrl(const pfc::string8& songId, boost::optional<pfc::string8> deviceId /*= boost::none*/)
 {
     if (deviceId == boost::none)
     {

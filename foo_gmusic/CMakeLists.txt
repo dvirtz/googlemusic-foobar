@@ -1,7 +1,7 @@
-set(SOURCES main.cpp preferences.cpp maindialog.cpp initquit.cpp gmusic.cpp songstable.cpp 
+set(SOURCES main.cpp Preferences.cpp MainDialog.cpp InitQuit.cpp GMusicInterface.cpp SongsTable.cpp 
 	ProcessLocationsNotify.cpp)
-set(HEADERS utility.h atlcontrols.h gmusic.h disablewarnings.h preferences.h genDefs.h songstable.h
-	ProcessLocationsNotify.h songInfo.h resource.h)
+set(HEADERS utility.h atlcontrols.h GMusicInterface.h disableWarnings.h Preferences.h MainDialog.h genDefs.h SongsTable.h
+	ProcessLocationsNotify.h SongInfo.h resource.h)
 set(RESOURCES foo_gmusic.rc)
 
 source_group("Resource Files" FILES ${RESOURCES})

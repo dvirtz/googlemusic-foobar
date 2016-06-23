@@ -1,10 +1,10 @@
-#include "disablewarnings.h"
+#include "disableWarnings.h"
 MSC_DISABLE_WARNINGS
 #include "ATLHelpers.h"
 #include "foobar2000.h"
 #include "component.h"
 MSC_RESTORE_WARNINGS
-#include "gmusic.h"
+#include "GMusicInterface.h"
 #include <algorithm>
 #include <vector>
 #include <iterator>
@@ -22,7 +22,7 @@ class InitQuit : public ::initquit
 public:
     void on_init()
     {
-        GMusic::instance().login();
+        GMusicInterface::instance().login();
     }
     void on_quit()
     {

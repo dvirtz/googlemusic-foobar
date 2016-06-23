@@ -1,4 +1,4 @@
-#include "disablewarnings.h"
+#include "disableWarnings.h"
 MSC_DISABLE_WARNINGS
 #include "foobar2000.h"
 MSC_RESTORE_WARNINGS

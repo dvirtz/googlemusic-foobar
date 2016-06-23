@@ -1,13 +1,13 @@
-#include "songstable.h"
+#include "SongsTable.h"
 #include "utility.h"
-#include "gmusic.h"
-#include "processLocationsNotify.h"
+#include "GMusicInterface.h"
+#include "ProcessLocationsNotify.h"
 
 namespace foo_gmusic
 {
 
 SongsTable::SongsTable(HWND hWndParent)
-    : m_gmusic(GMusic::instance())
+    : m_gmusic(GMusicInterface::instance())
 {
     Create(hWndParent);
 }

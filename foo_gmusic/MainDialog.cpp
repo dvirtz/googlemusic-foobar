@@ -1,5 +1,5 @@
-#include "maindialog.h"
-#include "songstable.h"
+#include "MainDialog.h"
+#include "SongsTable.h"
 #include "genDefs.h"
 
 namespace foo_gmusic
